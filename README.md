@@ -43,3 +43,5 @@ The session store is **in-memory and single-process**, appropriate for this loca
 Run `npm run build`. Negative-flow checks should confirm that unauthenticated requests return no workspace, session checks return 401, missing/invalid callbacks do not create sessions, and cross-origin logout requests return 403. Real-account sign-in, redirect registration, token exchange, workspace gating, invalid-CSRF rejection, local logout, and Dev SSO logout redirect were verified on September 24, 2026.
 
 The banner’s Return to myzPAX link and logout redirect both use https://dev.redesign.myzpax.com/home. Logout first clears the app session, then uses the Dev authentication logout endpoint with that return destination.
+
+Consent requests include `fallback_uri=https://dev.redesign.myzpax.com/home`, registered on the Dev SSO client. Selecting Deny returns to that page without completing the authorization-code flow.

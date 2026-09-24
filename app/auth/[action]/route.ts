@@ -16,7 +16,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ act
    if(previous) store.transactions.delete(previous);
    const id = randomId();
    store.transactions.set(id, { verifier,state,nonce,expires:Date.now()+600_000 });
-   const target = oidc.buildAuthorizationUrl(config, {redirect_uri:callbackUrl,scope:process.env.SSO_SCOPE || 'openid email',response_type:'code',response_mode:'query',code_challenge:await oidc.calculatePKCECodeChallenge(verifier),code_challenge_method:'S256',state,nonce});
+   const target = oidc.buildAuthorizationUrl(config, {redirect_uri:callbackUrl,fallback_uri:'https://dev.redesign.myzpax.com/home',scope:process.env.SSO_SCOPE || 'openid email',response_type:'code',response_mode:'query',code_challenge:await oidc.calculatePKCECodeChallenge(verifier),code_challenge_method:'S256',state,nonce});
    const response = redirect(target.href); response.cookies.set(transactionCookie,id,{...cookieOptions,maxAge:600}); return response;
   } catch { return redirect('/?authError=login'); }
  }

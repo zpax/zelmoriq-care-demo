@@ -14,3 +14,5 @@
 - Banner logout return destination: `https://dev.redesign.myzpax.com/home` (must be accepted by Dev SSO).
 
 Status: registered and credentials verified in myzPAX Dev. Local SSO is enabled. Access is available to Dev SSO users; the client is confidential, authorization-code only, with email scope and no service-account or elevation permissions.
+
+- Consent denial fallback URI: `https://dev.redesign.myzpax.com/home` (also sent as `fallback_uri` in authorization requests).

@@ -4,7 +4,7 @@
 - AWS account: 654654576032; profile: shared-services; region: us-east-1
 - CloudFormation stack: zelmoriq-dev
 - ECS cluster/service: zelmoriq-dev; one Fargate task (0.5 vCPU, 1 GB)
-- Image repository: zelmoriq-dev; current tag: redesign-home
+- Image repository: zelmoriq-dev; current tag: consent-deny
 - Build project: zelmoriq-dev
 - Private source bucket: zelmoriq-dev-build-654654576032
 - Secret: zelmoriq-dev/sso-client-secret (in AWS Secrets Manager)
