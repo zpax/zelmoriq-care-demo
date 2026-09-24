@@ -6,7 +6,7 @@ Portal: https://dev.redesign.myzpax.com/home
 
 Verified hosted HTTPS sign-in through Dev SSO, authenticated workspace rendering, session validation, logout CSRF protection, successful logout, and rejection of signed-out sessions. Public DNS resolvers resolve the hosted URL; local DNS may cache the earlier negative lookup until its TTL expires.
 
-The card uses hosted HTTPS full-view capabilities on desktop, tablet and mobile. Live Tile points to /tile, a public preview clearly labeled as fictional sample data. Banner and workspace remain behind SSO.
+The card uses hosted HTTPS full-view capabilities on desktop, tablet and mobile. Live Tile points to /tile, a public preview clearly labeled as fictional sample data. The banner and fictional workspace also support anonymous visitors. Portal full-app launch still starts SSO; direct visits to the app root allow guest exploration.
 
 Record identifiers:
 ```json

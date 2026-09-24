@@ -1,6 +1,6 @@
 # Zelmoriq Care — myzPAX Dev SSO sample
 
-Fictional Next.js + React client app demonstrating the actual myzPAX banner above an existing application. The workspace is now gated by real OpenID Connect login; unsigned demo tokens have been removed.
+Fictional Next.js + React client app demonstrating the actual myzPAX banner above an existing application. Visitors can explore the fictional workspace anonymously, with optional real OpenID Connect sign-in. Anonymous visitors receive no demo or authentication token.
 
 Hosted demo: https://dev.zelmoriq.zpaxapps.com
 
@@ -11,7 +11,7 @@ See [deployment notes](deployment/README.md) for AWS resources and operational l
 1. Register a dedicated client in **myzPAX Dev** with authorization code grant, S256 PKCE, scopes `openid email`, and exact redirect URI `http://127.0.0.1:3000/auth/callback` (no trailing slash).
 2. Copy `.env.example` to `.env.local`. Set `SSO_CLIENT_ID`. For a confidential registration, put its secret in `SSO_CLIENT_SECRET` locally; never in chat, source control, or `NEXT_PUBLIC_*` variables. The sample uses client_secret_post when a secret is supplied and none for an explicitly registered public client. Dev discovery advertises confidential authentication methods; confirm the client registration type.
 3. `npm ci`, then `npm run dev`. Open http://127.0.0.1:3000. Use the exact configured origin, not localhost as an alias.
-4. Sign in with a Dev account. Login credentials are entered only on the myzPAX identity provider.
+4. Explore as a guest, or sign in with a Dev account. Login credentials are entered only on the myzPAX identity provider.
 
 The dedicated client is registered in Dev and SSO_REGISTRATION_READY is enabled locally. Real authorization-code exchange, authenticated workspace access, local session logout, and Dev SSO logout redirect were verified. See SSO-REGISTRATION.md.
 
@@ -36,12 +36,14 @@ The session store is **in-memory and single-process**, appropriate for this loca
 
 ## Banner integration
 
-`app/suite-banner.tsx` mounts only after a verified session exists. It uses the minimal white style, one-time initialization, real token accessor, and session-clearing onLogout callback. The banner inserts itself above the complete workspace with styles isolated in its Shadow DOM. Session expiry returns the browser to sign-in.
+`app/suite-banner.tsx` mounts for guests and authenticated visitors. Guests supply a null token; the upstream widget hides its authenticated banner, and the app shows an optional sign-in link above the workspace. It uses the minimal white style, one-time initialization, real token accessor, and session-clearing onLogout callback. The banner inserts itself above the complete workspace with styles isolated in its Shadow DOM. Session expiry returns the browser to the anonymous workspace.
 
 ## Validation
 
-Run `npm run build`. Negative-flow checks should confirm that unauthenticated requests return no workspace, session checks return 401, missing/invalid callbacks do not create sessions, and cross-origin logout requests return 403. Real-account sign-in, redirect registration, token exchange, workspace gating, invalid-CSRF rejection, local logout, and Dev SSO logout redirect were verified on September 24, 2026.
+Run `npm run build`. Negative-flow checks should confirm that unauthenticated requests return the fictional workspace without an access token, anonymous session checks return 401, missing/invalid callbacks do not create sessions, and cross-origin logout requests return 403. Real-account sign-in, redirect registration, token exchange, authenticated workspace rendering, invalid-CSRF rejection, local logout, and Dev SSO logout redirect were verified on September 24, 2026.
 
 The banner’s Return to myzPAX link and logout redirect both use https://dev.redesign.myzpax.com/home. Logout first clears the app session, then uses the Dev authentication logout endpoint with that return destination.
 
 Consent requests include `fallback_uri=https://dev.redesign.myzpax.com/home`, registered on the Dev SSO client. Selecting Deny returns to that page without completing the authorization-code flow.
+
+Anonymous workspace rendering (HTTP 200 without cookies or a JWT), anonymous session rejection (401), and authenticated SSO were verified after the guest-access deployment.

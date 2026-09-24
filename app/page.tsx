@@ -4,7 +4,14 @@ import SuiteBanner from './suite-banner';
 export const dynamic = 'force-dynamic';
 export default async function Home({searchParams}:{searchParams:Promise<{authError?:string}>}) {
  const session = await getSession();
- if(session) return <><SuiteBanner accessToken={session.accessToken} issuer={issuer} csrf={session.csrf} expires={session.expires}/><Workspace userName={session.name}/></>;
  const error = (await searchParams).authError;
- return <main className="sign-in-page"><div className="sign-in-card"><p className="eyebrow">ZELMORIQ CARE</p><h1>Your care workspace.</h1><p>Sign in with your myzPAX account to continue.</p>{error && <p role="alert" className="sign-in-error">Sign-in could not be completed. Please try again or contact your SSO administrator.</p>}{configured()?<a className="primary-button" href="/auth/login">Sign in with myzPAX →</a>:<p className="setup-message">SSO setup is awaiting this sample app’s client registration.</p>}<small>Sample application · Fictional patient data</small></div></main>;
+ return <>
+  <SuiteBanner accessToken={session?.accessToken ?? null} issuer={issuer} csrf={session?.csrf ?? ''} expires={session?.expires ?? 0}/>
+  {!session && <div style={{padding:'12px 24px',display:'flex',gap:16,alignItems:'center',flexWrap:'wrap',background:'#edf4ec',color:'#173e38'}}>
+   <span>Exploring as a guest · Fictional demo data</span>
+   {configured() && <a href="/auth/login" style={{fontWeight:700,textDecoration:'underline'}}>Sign in with myzPAX →</a>}
+   {error && <span role="alert">Sign-in could not be completed. You can continue exploring or try again.</span>}
+  </div>}
+  <Workspace userName={session?.name ?? 'Guest visitor'} isGuest={!session}/>
+ </>;
 }

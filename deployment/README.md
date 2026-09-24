@@ -4,7 +4,7 @@
 - AWS account: 654654576032; profile: shared-services; region: us-east-1
 - CloudFormation stack: zelmoriq-dev
 - ECS cluster/service: zelmoriq-dev; one Fargate task (0.5 vCPU, 1 GB)
-- Image repository: zelmoriq-dev; current tag: consent-deny
+- Image repository: zelmoriq-dev; current tag: anonymous-demo
 - Build project: zelmoriq-dev
 - Private source bucket: zelmoriq-dev-build-654654576032
 - Secret: zelmoriq-dev/sso-client-secret (in AWS Secrets Manager)
@@ -14,7 +14,7 @@ The stack provides an isolated VPC, two subnets, an HTTPS load balancer, DNS rec
 
 This demo deliberately runs one task because its login transactions and sessions are held in memory. Restarts and deployments sign users out. Rolling deployments stop the previous task before starting its replacement, causing a brief outage. Use shared session storage before scaling beyond one task or enabling overlapping deployments.
 
-The /tile route is a public preview with explicitly fictional sample counts. The full workspace requires Dev SSO. The hosted SSO callback is /auth/callback; the local callback remains registered.
+The /tile route is a public preview with explicitly fictional sample counts. The fictional workspace is public, with optional Dev SSO sign-in. Anonymous access does not create an authenticated session. The hosted SSO callback is /auth/callback; the local callback remains registered.
 
 The source archive and container build exclude .env files. The SSO secret is injected into the container at runtime. Do not place secrets into the template or container image.
 
