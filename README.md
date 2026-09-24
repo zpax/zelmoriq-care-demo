@@ -36,7 +36,7 @@ The session store is **in-memory and single-process**, appropriate for this loca
 
 ## Banner integration
 
-`app/suite-banner.tsx` mounts for guests and authenticated visitors. Guests supply a null token; the upstream widget hides its authenticated banner, and the app shows an optional sign-in link above the workspace. It uses the minimal white style, one-time initialization, real token accessor, and session-clearing onLogout callback. The banner inserts itself above the complete workspace with styles isolated in its Shadow DOM. Session expiry returns the browser to the anonymous workspace.
+`app/suite-banner.tsx` mounts only for authenticated visitors. Guests do not load the suite banner script and see an optional sign-in link above the workspace. It uses the minimal white style, one-time initialization, real token accessor, and session-clearing onLogout callback. The banner inserts itself above the complete workspace with styles isolated in its Shadow DOM. Session expiry automatically redirects to https://dev.redesign.myzpax.com/home. A timer handles token/session expiry; visible tabs also check the server session every 30 seconds and when returning to the tab.
 
 ## Validation
 

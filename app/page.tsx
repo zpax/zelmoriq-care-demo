@@ -6,7 +6,7 @@ export default async function Home({searchParams}:{searchParams:Promise<{authErr
  const session = await getSession();
  const error = (await searchParams).authError;
  return <>
-  <SuiteBanner accessToken={session?.accessToken ?? null} issuer={issuer} csrf={session?.csrf ?? ''} expires={session?.expires ?? 0}/>
+  {session && <SuiteBanner accessToken={session.accessToken} issuer={issuer} csrf={session.csrf} expires={session.expires}/>}
   {!session && <div style={{padding:'12px 24px',display:'flex',gap:16,alignItems:'center',flexWrap:'wrap',background:'#edf4ec',color:'#173e38'}}>
    <span>Exploring as a guest · Fictional demo data</span>
    {configured() && <a href="/auth/login" style={{fontWeight:700,textDecoration:'underline'}}>Sign in with myzPAX →</a>}
